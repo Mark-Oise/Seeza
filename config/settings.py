@@ -33,12 +33,12 @@ SECRET_KEY = env("SECRET_KEY")
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'django-htmx-chat.onrender.com',
+    'https://seeza.onrender.com',
     'localhost',  # For local development
     '127.0.0.1'  # For local development
 ]
 
-CSRF_TRUSTED_ORIGINS = ['https://django-htmx-chat.onrender.com']
+CSRF_TRUSTED_ORIGINS = ['https://seeza.onrender.com']
 
 # Application definition
 

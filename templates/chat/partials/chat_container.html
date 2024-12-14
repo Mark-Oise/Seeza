@@ -1,0 +1,27 @@
+<style>
+    @keyframes fadeInAndUp {
+        from {
+            opacity: 0;
+            transform: translateY(12px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0px);
+        }
+    }
+
+    .fade-in-up {
+        animation: fadeInAndUp 0.6s ease;
+    }
+</style>
+
+<div id="message-list" class="mb-16 flex flex-col gap-4 w-full mx-auto px-4 sm:px-6 lg:px-8" hx-swap-oob="beforeend">
+    {% for message in messages %}
+    {% if message.sender == 'user' %}
+    {% include 'chat/partials/user_message.html' with message=message %}
+    {% else %}
+    {% include 'chat/partials/bot_message.html' with message=message %}
+    {% endif %}
+    {% endfor %}
+</div>

@@ -1,0 +1,11 @@
+.sidebar-collapsed #sidebar {
+    transform: translateX(-100%);
+}
+
+.sidebar-collapsed #main-content {
+    margin-left: 0 !important;
+}
+
+.sidebar-transition {
+    transition: transform 0.3s ease-in-out, margin 0.3s ease-in-out;
+}

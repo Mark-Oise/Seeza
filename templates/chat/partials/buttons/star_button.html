@@ -1,0 +1,17 @@
+<button id="star-toggle" data-tooltip-target="star-toggle-tooltip" type="button"
+                      class="{% if is_starred %}text-yellow-400 hover:text-yellow-500{% else %}text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700{% endif %} focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5"
+                      hx-post="{% url 'chat:star_conversation' slug=conversation.slug %}"
+                      hx-target="#star-toggle"
+                      hx-trigger="click"
+                      hx-swap="outerHTML">
+                      <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="{% if is_starred %}currentColor{% else %}none{% endif %}" viewBox="0 0 24 24">
+                        <path {% if is_starred %}fill="currentColor"{% else %}stroke="currentColor"{% endif %} {% if not is_starred %}stroke-width="2"{% endif %} d="M11.083 5.104c.35-.8 1.485-.8 1.834 0l1.752 4.022a1 1 0 0 0 .84.597l4.463.342c.9.069 1.255 1.2.556 1.771l-3.33 2.723a1 1 0 0 0-.337 1.016l1.03 4.119c.214.858-.71 1.552-1.474 1.106l-3.913-2.281a1 1 0 0 0-1.008 0L7.583 20.8c-.764.446-1.688-.248-1.474-1.106l1.03-4.119A1 1 0 0 0 6.8 14.56l-3.33-2.723c-.698-.571-.342-1.702.557-1.771l4.462-.342a1 1 0 0 0 .84-.597l1.753-4.022Z"/>
+                      </svg>
+                      
+</button>
+
+<div id="star-toggle-tooltip" role="tooltip"
+                   class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">
+                  Star Conversation
+                  <div class="tooltip-arrow" data-popper-arrow></div>
+</div>

@@ -1,0 +1,33 @@
+<h1 class="mb-2 text-2xl font-extrabold tracking-tight text-gray-900 leding-tight dark:text-white">
+    Verify your email address
+</h1>
+<p class="font-light text-gray-500 dark:text-gray-400">We emailed you a six-digit code to <span
+        class="font-medium text-gray-900 dark:text-white">{{ email }}</span>. Enter the code below
+    to confirm your email address.</p>
+<form hx-post="{% url 'accounts:verify_code' %}"
+      hx-indicator="#loading-indicator">
+    {% csrf_token %}
+    <input type="hidden" name="email" value="{{ email }}">
+    <div class="flex my-4 space-x-2 sm:space-x-4 md:my-6">
+        {% for i in '123456' %}
+        <div>
+            <label for="code-{{ i }}" class="sr-only">Code {{ i }}</label>
+            <input type="text" maxlength="1" id="code-{{ i }}" name="code-{{ i }}"
+                   class="block w-12 h-12 py-3 text-2xl font-extrabold text-center text-gray-900 bg-white border border-gray-300 rounded-lg sm:py-4 sm:text-4xl sm:w-16 sm:h-16 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                   required>
+        </div>
+        {% endfor %}
+    </div>
+    <div id="error-message" class="text-red-500 hidden"></div>
+    <div class="flex space-x-3">
+        <a hx-get="{% url 'accounts:go_back' %}"
+           hx-target="#authentication-div"
+           class="text-center items-center w-full py-2.5 sm:py-3.5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+            Prev: Account Info
+        </a>
+        <button type="submit"
+                class="w-full text-white bg-blue-700 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 sm:py-3.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+            Verify Email
+        </button>
+    </div>
+</form>

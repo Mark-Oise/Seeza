@@ -1,0 +1,23 @@
+#main-content {
+    transition: margin-left 0.3s ease-in-out;
+}
+#footer {
+    transition: left 0.3s ease-in-out, width 0.3s ease-in-out;
+}
+@media (max-width: 1023px) {
+    #footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+    #chat-container {
+        padding-bottom: 12rem; /* Adjust based on your footer's height */
+        margin-top: 20px;
+    }
+    #nav {
+        position: fixed;
+    }
+    
+}
+

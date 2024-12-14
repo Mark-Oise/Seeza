@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: django-htmx-chat
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "daphne config.asgi:application"
+    envVars:
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: django-htmx-chat-redis
+          property: connectionString
+
+  - type: redis
+    name: django-htmx-chat-redis
+    ipAllowList: [ ]

@@ -1,9 +1,9 @@
 <div id="message-container-{{ message.id }}">
     <div class="pb-4 mt-4 flex flex-col items-start max-w-4xl">
 
-        <div class="flex items-start gap-2.5 w-full">
+        <div class="flex items-start gap-2 w-full">
             <div id="placeholder"
-                class="shrink-0 inline-flex items-center justify-center size-[38px] rounded-full bg-gray-600 self-start mt-2">
+                class="shrink-0 inline-flex items-center justify-center size-[38px] rounded-full bg-gray-600 self-start">
                 <span class="font-medium text-gray-200 dark:text-gray-300"><svg xmlns="http://www.w3.org/2000/svg"
                         width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                         stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bot">
@@ -16,7 +16,7 @@
                     </svg> </span>
             </div>
             <div class="flex flex-col gap-1 w-full">
-                <div class="flex flex-col sm:flex-row justify-between leading-1.5 p-4 border-gray-200 rounded-lg">
+                <div class="flex flex-col sm:flex-row justify-between leading-1.5 p-2 border-gray-200 rounded-lg">
                     <div id="message-content-{{ message.id }}"
                         class="text-md font-normal text-gray-900 dark:text-gray-200 flex-grow markdown-content">
                         {{ message.get_content_as_markdown|safe }}

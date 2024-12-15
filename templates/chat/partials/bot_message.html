@@ -1,11 +1,13 @@
-<div id="bot-message-{{ message.id }}" class="pb-4 mt-4 flex flex-col items-start max-w-3xl">
-    <div class="flex items-start gap-2.5 w-full">
-        <img class="h-12 w-12 rounded-full" src="/media/icons/bot-avatar.png" alt="Bot image">
-        <div class="flex flex-col gap-1 w-full">
-            <div class="flex flex-col sm:flex-row justify-between leading-1.5 py-2.5 border-gray-200">
-                <div id="message-content-{{ message.id }}"
-                    class="text-md font-normal text-gray-900 dark:text-gray-200 flex-grow markdown-content">
-                    {{ message.get_content_as_markdown|safe }}
+<div id="message-container-{{ message.id }}">
+    <div class="pb-4 mt-4 flex flex-col items-start max-w-3xl">
+        <div class="flex items-start gap-2.5 w-full">
+            <img class="h-12 w-12 rounded-full" src="/media/icons/bot-avatar.png" alt="Bot image">
+            <div class="flex flex-col gap-1 w-full">
+                <div class="flex flex-col sm:flex-row justify-between leading-1.5 py-2.5 border-gray-200">
+                    <div id="message-content-{{ message.id }}"
+                        class="text-md font-normal text-gray-900 dark:text-gray-200 flex-grow markdown-content">
+                        {{ message.get_content_as_markdown|safe }}
+                    </div>
                 </div>
             </div>
         </div>

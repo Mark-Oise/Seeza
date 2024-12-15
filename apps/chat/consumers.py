@@ -136,7 +136,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             {
                 'type': 'chat_message',
-                'message': f'<div id="message-list" hx-swap-oob="beforeend">{typing_html}</div>',
+                'message': f'<div id="typing-indicator-container" hx-swap-oob="innerHTML">{typing_html}</div>',
             }
         )
 
@@ -145,7 +145,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             {
                 'type': 'chat_message',
-                'message': '<div id="loading-message" hx-swap-oob="delete"></div>',
+                'message': '<div id="typing-indicator-container" hx-swap-oob="delete"></div>',
             }
         )
 
@@ -175,7 +175,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             {
                 'type': 'chat_message',
-                'message': f'<div id="message-list" hx-swap-oob="beforeend">{rendered_message}</div>',
+                'message': f'<div id="messages-container" hx-swap-oob="beforeend">{rendered_message}</div>',
             }
         )
 
@@ -256,12 +256,4 @@ class ChatConsumer(AsyncWebsocketConsumer):
             }
         )
 
-    async def button_group(self, message_id):
-        button_group_html = await self.render_message(None, 'chat/partials/buttons/button_group.html')
-        await self.channel_layer.group_send(
-            self.room_group_name,
-            {
-                'type': 'chat_message',
-                'message': f'<div id="button-group-container" hx-swap-oob="innerHTML">{button_group_html}</div>',
-            }
-        )
+    

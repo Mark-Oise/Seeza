@@ -105,7 +105,10 @@ def conversation_detail(request, slug):
         if conversation.session_key != request.session.session_key:
             return redirect('chat:home')
 
-    messages = conversation.messages.all()
+    # Fetch messages in the correct order, avoiding duplicates
+    messages = conversation.messages.order_by('created_at').distinct()
+    
+
     return render(request, 'chat/conversation_detail.html', {
         'conversation': conversation,
         'messages': messages,

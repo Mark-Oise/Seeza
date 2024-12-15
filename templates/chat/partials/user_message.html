@@ -1,14 +1,17 @@
-<div id="message-{{ message.id }}" class="pb-4 mt-4 flex flex-col items-start max-w-3xl mr-auto">
-    <div class="flex items-start gap-2.5 w-full">
-        <div id="placeholder"
-            class="shrink-0 inline-flex items-center justify-center size-[38px] rounded-full bg-gray-600 self-start mt-2">
-            <span class="font-medium text-gray-200 dark:text-gray-300">JL</span>
-        </div>
-        <div class="flex-grow">
-            <div
-                class="flex flex-col sm:flex-row justify-between leading-1.5 p-4 border-gray-200 rounded-lg bg-gray-200 dark:bg-gray-700">
-                <div id="" class="text-md font-normal text-gray-900 dark:text-gray-200 flex-grow markdown-content">
-                    {{ message.content|safe }}
+<div id="message-container-{{ message.id }}">
+    <div id="message-{{ message.id }}" class="pb-4 mt-4 flex flex-col items-start max-w-3xl mr-auto">
+        <div class="flex items-start gap-2.5 w-full">
+            <div id="placeholder"
+                class="shrink-0 inline-flex items-center justify-center size-[38px] rounded-full bg-gray-600 self-start mt-2">
+                <span class="font-medium text-gray-200 dark:text-gray-300">JL</span>
+            </div>
+            <div class="flex-grow">
+                <div
+                    class="flex flex-col sm:flex-row justify-between leading-1.5 p-4 border-gray-200 rounded-lg bg-gray-200 dark:bg-gray-700">
+                    <div id="message-content-{{ message.id }}"
+                        class="text-md font-normal text-gray-900 dark:text-gray-200 flex-grow markdown-content">
+                        {{ message.content|safe }}
+                    </div>
                 </div>
             </div>
         </div>

@@ -53,5 +53,10 @@
 
 {% include 'chat/partials/modals/rename_modal.html' %}
 {% include 'chat/partials/modals/delete_modal.html' %}
+<script>
+  document.body.addEventListener('htmx:wsBeforeMessage', function (evt) {
+    console.log('WebSocket message received:', evt.detail.message);
+  });
+</script>
 
 {% endblock content %}

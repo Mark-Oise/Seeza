@@ -28,7 +28,7 @@
             placeholder="Ask me anything..."></textarea>
 
           <!-- Toolbar -->
-          <div class="absolute bottom-px inset-x-px p-2 rounded-b-lg bg-gray-100 dark:bg-neutral-900">
+          <div class="absolute bottom-px inset-x-px p-2 rounded-b-lg bg-gray-100 dark:bg-gray-900">
             <div class="flex justify-end items-center">
 
 
@@ -53,10 +53,6 @@
 
 {% include 'chat/partials/modals/rename_modal.html' %}
 {% include 'chat/partials/modals/delete_modal.html' %}
-<script>
-  document.body.addEventListener('htmx:wsBeforeMessage', function (evt) {
-    console.log('WebSocket message received:', evt.detail.message);
-  });
-</script>
+
 
 {% endblock content %}

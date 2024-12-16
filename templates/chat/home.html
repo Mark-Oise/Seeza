@@ -7,6 +7,17 @@
         <main class="flex-1 pb-16 flex items-center justify-center">
             <div class="w-full max-w-3xl px-4 py-8 mx-auto">
                 <!-- Header section -->
+                {% if user.is_authenticated %}
+                <div class="w-full max-w-4xl mx-auto text-center mb-8">
+                    <h1 class="text-3xl font-bold text-gray-800 sm:text-4xl dark:text-white">
+                        Welcome back, {{ user.name|default:user.username|title }}
+                    </h1>
+
+                    <p class="mt-3 text-gray-600 dark:text-gray-400">
+                        Ready to continue our conversation?
+                    </p>
+                </div>
+                {% else %}
                 <div class="w-full max-w-4xl mx-auto text-center mb-8">
                     <h1 class="text-3xl font-bold text-gray-800 sm:text-4xl dark:text-white">
                         Welcome to Seeza
@@ -16,6 +27,7 @@
                         Your AI-powered copilot for the web
                     </p>
                 </div>
+                {% endif %}
                 <!-- Chat input form -->
                 <div class="mt-8 pb-16">
                     <form class="relative" id="message-input-home" method="post"

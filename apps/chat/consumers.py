@@ -124,10 +124,16 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     async def stream_ai_response(self, bot_message, response):
         full_response = ""
+        buffer = ""
+        buffer_size = 20  
+        
         for chunk in response:
             if chunk.text:
-                for char in chunk.text:
-                    full_response += char
+                buffer += chunk.text
+                
+                # Only update when buffer reaches certain size or it's the last chunk
+                if len(buffer) >= buffer_size:
+                    full_response += buffer
                     await self.update_message(bot_message, full_response)
                     rendered_content = await database_sync_to_async(bot_message.get_content_as_markdown)()
                     await self.channel_layer.group_send(
@@ -137,15 +143,29 @@ class ChatConsumer(AsyncWebsocketConsumer):
                             'message': f'<div id="message-content-{bot_message.id}" hx-swap-oob="innerHTML">{rendered_content}</div>',
                         }
                     )
-                    await asyncio.sleep(0.001)  # Further reduced sleep time for faster effect
+                    buffer = ""
+                    
+        # Send any remaining buffer content
+        if buffer:
+            full_response += buffer
+            await self.update_message(bot_message, full_response)
+            rendered_content = await database_sync_to_async(bot_message.get_content_as_markdown)()
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    'type': 'chat_message',
+                    'message': f'<div id="message-content-{bot_message.id}" hx-swap-oob="innerHTML">{rendered_content}</div>',
+                }
+            )
 
         # Update the full message in the database
-        await self.update_message(bot_message, full_response.strip())
+        full_response = full_response.strip()
+        await self.update_message(bot_message, full_response)
 
         # Add bot response to conversation history
-        self.conversation_history.append({'role': 'model', 'parts': [full_response.strip()]})
+        self.conversation_history.append({'role': 'model', 'parts': [full_response]})
 
-        return full_response.strip()
+        return full_response
 
     async def generate_title(self, ai_response):
         title_prompt = f"Based on this conversation, generate a short, concise title (max 5 words):\nUser: {self.conversation_history[0]['parts'][0]}\nAI: {ai_response}"
@@ -315,15 +335,4 @@ class ChatConsumer(AsyncWebsocketConsumer):
         )
 
 
-    async def button_group(self, message_id):
-        """
-        Send loading button to the client.
-        """
-        button_group_html = await self.render_message(None, 'chat/partials/buttons/button_group.html')
-        await self.channel_layer.group_send(
-            self.room_group_name,
-            {
-                'type': 'chat_message',
-                'message': f'<div id="button-group-container" hx-swap-oob="innerHTML">{button_group_html}</div>',
-            }
-        )
+    

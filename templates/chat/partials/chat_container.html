@@ -17,14 +17,11 @@
 </style>
 
 <div id="message-list" class="mb-16 flex flex-col gap-4 w-full mx-auto px-4 sm:px-6 lg:px-8">
-    <div id="messages-container">
-        {% for message in messages %}
-        {% if message.sender == 'user' %}
-        {% include 'chat/partials/user_message.html' with message=message %}
-        {% else %}
-        {% include 'chat/partials/bot_message.html' with message=message %}
-        {% endif %}
-        {% endfor %}
-    </div>
-    <div id="typing-indicator-container"></div>
+    {% for message in messages %}
+    {% if message.sender == 'user' %}
+    {% include 'chat/partials/user_message.html' with message=message %}
+    {% else %}
+    {% include 'chat/partials/bot_message.html' with message=message %}
+    {% endif %}
+    {% endfor %}
 </div>

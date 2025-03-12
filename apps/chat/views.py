@@ -119,4 +119,10 @@ def conversation_detail(request, slug):
 
 def get_conversation_title(request, slug):
     conversation = get_object_or_404(Conversation, slug=slug)
-    return HttpResponse(conversation.title)
+    response = HttpResponse(conversation.title)
+    
+    # Only trigger the event if the title is no longer "New Conversation"
+    if conversation.title != "New Conversation":
+        response['HX-Trigger'] = 'titleFetched'
+    
+    return response

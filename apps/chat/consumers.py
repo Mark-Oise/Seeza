@@ -125,7 +125,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def stream_ai_response(self, bot_message, response):
         full_response = ""
         buffer = ""
-        buffer_size = 20  
+        buffer_size = 30  
         
         for chunk in response:
             if chunk.text:

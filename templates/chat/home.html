@@ -34,119 +34,106 @@
                         action="{% url 'chat:create_conversation' %}">
                         {% csrf_token %}
 
-                        <div class="flex items-center space-x-2 mb-4">
-                            <!-- Item -->
-                            <div class="flex items-center p-3 border border-gray-200 dark:border-gray-700 rounded-lg">
-                                <div
-                                    class="flex items-center justify-center w-10 h-10 mr-3 rounded-lg bg-blue-100 dark:bg-primary-900">
-                                    <svg class="w-5 h-5 text-blue-600 lg:w-6 lg:h-6 dark:text-primary-300"
-                                        fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
-                                        aria-hidden="true">
-                                        <path clip-rule="evenodd" fill-rule="evenodd"
-                                            d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0016.5 9h-1.875a1.875 1.875 0 01-1.875-1.875V5.25A3.75 3.75 0 009 1.5H5.625zM7.5 15a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5A.75.75 0 017.5 15zm.75 2.25a.75.75 0 000 1.5H12a.75.75 0 000-1.5H8.25z">
-                                        </path>
-                                        <path
-                                            d="M12.971 1.816A5.23 5.23 0 0114.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 013.434 1.279 9.768 9.768 0 00-6.963-6.963z">
-                                        </path>
-                                    </svg>
-                                </div>
-                                <div class="mr-4">
-                                    <p class="text-sm font-semibold text-gray-900 dark:text-white">flowbite_offer_345"
-                                    </p>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400">PDF</p>
-                                </div>
-                                <div class="flex items-center ml-auto">
 
-                                    <button type="button" class="p-2 rounded hover:bg-gray-100">
-                                        <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor"
-                                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <div class="bg-gray-100 rounded-lg">
+                            <div class="flex items-center space-x-2 px-4 py-2">
+                                <!-- Item -->
+                                <div id="document-div"
+                                    class="flex items-center p-3 border border-gray-200 bg-white dark:border-gray-700 rounded-lg">
+                                    <div
+                                        class="flex items-center justify-center w-10 h-10 mr-3 rounded-lg bg-blue-100 dark:bg-primary-900">
+                                        <svg class="w-5 h-5 text-blue-600 lg:w-6 lg:h-6 dark:text-primary-300"
+                                            fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+                                            aria-hidden="true">
+                                            <path clip-rule="evenodd" fill-rule="evenodd"
+                                                d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0016.5 9h-1.875a1.875 1.875 0 01-1.875-1.875V5.25A3.75 3.75 0 009 1.5H5.625zM7.5 15a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5A.75.75 0 017.5 15zm.75 2.25a.75.75 0 000 1.5H12a.75.75 0 000-1.5H8.25z">
+                                            </path>
                                             <path
-                                                d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z">
+                                                d="M12.971 1.816A5.23 5.23 0 0114.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 013.434 1.279 9.768 9.768 0 00-6.963-6.963z">
                                             </path>
                                         </svg>
-                                        <span class="sr-only">Actions</span>
-                                    </button>
+                                    </div>
+                                    <div class="mr-4">
+                                        <p class="text-sm font-semibold text-gray-900 dark:text-white">
+                                            flowbite_offer_345"
+                                        </p>
+                                        <p class="text-sm text-gray-500 dark:text-gray-400">PDF</p>
+                                    </div>
+                                    <div class="flex items-center ml-auto">
+
+                                        <button type="button" class="p-2 rounded hover:bg-gray-100">
+                                            <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor"
+                                                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"
+                                                aria-hidden="true">
+                                                <path
+                                                    d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z">
+                                                </path>
+                                            </svg>
+                                            <span class="sr-only">Actions</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- Item -->
+                                <div class="flex">
+                                    <img class="rounded-lg w-16 h-16 sm:mb-0 xl:mb-4 2xl:mb-0"
+                                        src="https://flowbite-admin-dashboard.vercel.app/images/users/bonnie-green-2x.png"
+                                        alt="Jese picture">
+                                </div>
+
+                            </div>
+
+                            <textarea id="message-home" name="message"
+                                style="resize: none; min-height: 100px; max-height: 300px; overflow-y: auto;"
+                                class="shadow-md p-4 bg-gray-100 pb-12 block w-full border-gray-200 rounded-lg text-sm focus:border-gray-800 focus:ring-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500"
+                                placeholder="Ask me anything..."
+                                oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px'"></textarea>
+
+                            <!-- Toolbar -->
+                            <div
+                                class="absolute bottom-px z-10 inset-x-px px-4 py-2 rounded-b-lg bg-gray-100 dark:bg-neutral-900">
+                                <div class="flex flex-wrap justify-between items-center gap-2">
+                                    <!-- Button Group -->
+                                    <div class="flex items-center gap-2">
+                                        <!-- Image Button -->
+                                        <button type="button"
+                                            class="inline-flex shrink-0 justify-center bg-white items-center h-10 w-10 rounded-lg text-gray-500 hover:bg-gray-100 focus:z-10 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-500 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700">
+
+                                            <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" stroke-linecap="round"
+                                                    stroke-linejoin="round" stroke-width="2"
+                                                    d="m3 16 5-7 6 6.5m6.5 2.5L16 13l-4.286 6M14 10h.01M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z" />
+                                            </svg>
+
+
+                                        </button>
+                                        <!-- End Image Button -->
+
+                                        <!-- Attach Button -->
+                                        <button type="button"
+                                            class="inline-flex shrink-0 justify-center bg-white items-center h-10 w-10 rounded-lg text-gray-500 hover:bg-gray-100 focus:z-10 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-500 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700">
+                                            <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24"
+                                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path
+                                                    d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48" />
+                                            </svg>
+                                        </button>
+                                        <!-- End Attach Button -->
+                                    </div>
+                                    <!-- End Button Group -->
+
+                                    <!-- Button Group -->
+                                    <div class="flex items-center gap-x-1">
+                                        <!-- Send Button -->
+                                        {% include 'chat/partials/buttons/submit_button.html' %}
+                                        <!-- End Send Button -->
+                                    </div>
+                                    <!-- End Button Group -->
                                 </div>
                             </div>
-                            <!-- Item -->
-                            <div class="flex items-center p-3 border border-gray-200 dark:border-gray-700 rounded-lg">
-                                <div
-                                    class="flex items-center justify-center w-10 h-10 mr-3 bg-teal-100 rounded-lg dark:bg-teal-900">
-                                    <svg class="w-5 h-5 text-teal-600 lg:w-6 lg:h-6 dark:text-teal-300"
-                                        fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"
-                                        aria-hidden="true">
-                                        <path
-                                            d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z">
-                                        </path>
-                                    </svg>
-                                </div>
-                                <div class="mr-4">
-                                    <p class="text-sm font-semibold text-gray-900 dark:text-white">bergside_pitch"</p>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400">PPTX, 10.1 MB</p>
-                                </div>
-                                <div class="flex items-center ml-auto">
-                                    <button type="button" class="p-2 rounded hover:bg-gray-100">
-                                        <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor"
-                                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                            <path
-                                                d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z">
-                                            </path>
-                                        </svg>
-                                        <span class="sr-only">Actions</span>
-                                    </button>
-                                </div>
-                            </div>
+                            <!-- End Toolbar -->
                         </div>
-
-
-                        <textarea id="message-home" name="message" style="resize: none;"
-                            class="shadow-md p-4 bg-gray-100 pb-12 block w-full border-gray-200 rounded-lg text-sm focus:border-gray-800 focus:ring-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500"
-                            placeholder="Ask me anything..."></textarea>
-
-                        <!-- Toolbar -->
-                        <div class="absolute bottom-px inset-x-px p-2 rounded-b-lg bg-gray-100 dark:bg-neutral-900">
-                            <div class="flex flex-wrap justify-between items-center gap-2">
-                                <!-- Button Group -->
-                                <div class="flex items-cente gap-2">
-                                    <!-- Image Button -->
-                                    <button type="button"
-                                        class="inline-flex shrink-0 justify-center bg-white items-center h-10 w-10 rounded-lg text-gray-500 hover:bg-gray-100 focus:z-10 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-500 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700">
-
-                                        <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                            width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                                stroke-width="2"
-                                                d="m3 16 5-7 6 6.5m6.5 2.5L16 13l-4.286 6M14 10h.01M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z" />
-                                        </svg>
-
-
-                                    </button>
-                                    <!-- End Image Button -->
-
-                                    <!-- Attach Button -->
-                                    <button type="button"
-                                        class="inline-flex shrink-0 justify-center bg-white items-center h-10 w-10 rounded-lg text-gray-500 hover:bg-gray-100 focus:z-10 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-500 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700">
-                                        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <path
-                                                d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48" />
-                                        </svg>
-                                    </button>
-                                    <!-- End Attach Button -->
-                                </div>
-                                <!-- End Button Group -->
-
-                                <!-- Button Group -->
-                                <div class="flex items-center gap-x-1">
-                                    <!-- Send Button -->
-                                    {% include 'chat/partials/buttons/submit_button.html' %}
-                                    <!-- End Send Button -->
-                                </div>
-                                <!-- End Button Group -->
-                            </div>
-                        </div>
-                        <!-- End Toolbar -->
 
 
 

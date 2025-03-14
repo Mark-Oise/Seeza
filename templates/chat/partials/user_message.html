@@ -1,14 +1,9 @@
 <div id="message-container-{{ message.id }}">
-    <div id="message-{{ message.id }}" class="pb-4 mt-4 flex flex-col items-end max-w-4xl mr-auto">
-        <div class="flex items-start gap-2.5 w-full justify-end">
-            <div class="flex-grow">
-                <div
-                    class="flex flex-col sm:flex-row justify-between leading-1.5 p-4 border-gray-200 rounded-lg bg-gray-200 dark:bg-gray-700">
-                    <div id="message-content-{{ message.id }}"
-                        class="text-md font-normal text-gray-900 dark:text-gray-200 flex-grow markdown-content">
-                        {{ message.content|safe }}
-                    </div>
-                </div>
+    <div id="message-{{ message.id }}" class="pb-4 mt-4 flex justify-end">
+        <div class="p-4 rounded-lg bg-gray-200 dark:bg-gray-700">
+            <div id="message-content-{{ message.id }}"
+                class="text-md font-normal text-gray-900 dark:text-gray-200 markdown-content">
+                {{ message.content }}
             </div>
         </div>
     </div>

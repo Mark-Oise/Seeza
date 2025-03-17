@@ -1,0 +1,58 @@
+<div id="attachment-container" class="flex flex-wrap items-center gap-2 mb-4 {% if not temp_images %}hidden{% endif %}">
+    <!-- Document attachment if needed -->
+    {% if document %}
+    <div id="document-attachment"
+        class="flex relative items-center p-3 border border-gray-200 dark:border-gray-700 rounded-lg relative">
+        <button type="button"
+            class="absolute -top-2 right-0 p-0.5 rounded-full bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 shadow-sm"
+            hx-post="{% url 'chat:remove_document' document_id=document.id %}" hx-target="#document-attachment"
+            hx-swap="outerHTML">
+            <svg class="w-5 h-5 text-red-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                <path fill-rule="evenodd"
+                    d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm7.707-3.707a1 1 0 0 0-1.414 1.414L10.586 12l-2.293 2.293a1 1 0 1 0 1.414 1.414L12 13.414l2.293 2.293a1 1 0 0 0 1.414-1.414L13.414 12l2.293-2.293a1 1 0 0 0-1.414-1.414L12 10.586 9.707 8.293Z"
+                    clip-rule="evenodd" />
+            </svg>
+            <span class="sr-only">Remove item</span>
+        </button>
+        <div class="flex items-center justify-center w-10 h-10 mr-3 rounded-lg bg-blue-100 dark:bg-primary-900">
+            <svg class="w-5 h-5 text-blue-600 lg:w-6 lg:h-6 dark:text-primary-300" fill="currentColor"
+                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path clip-rule="evenodd" fill-rule="evenodd"
+                    d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0016.5 9h-1.875a1.875 1.875 0 01-1.875-1.875V5.25A3.75 3.75 0 009 1.5H5.625zM7.5 15a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5A.75.75 0 017.5 15zm.75 2.25a.75.75 0 000 1.5H12a.75.75 0 000-1.5H8.25z">
+                </path>
+                <path
+                    d="M12.971 1.816A5.23 5.23 0 0114.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 013.434 1.279 9.768 9.768 0 00-6.963-6.963z">
+                </path>
+            </svg>
+        </div>
+        <div class="mr-4">
+            <p class="text-sm font-semibold text-gray-900 dark:text-white">{{ document.filename }}</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">{{ document.file_type }}</p>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Images loop -->
+    {% if temp_images %}
+    {% for image in temp_images %}
+    <div id="image-attachment-{{ image.id }}" class="flex relative">
+        <button type="button"
+            class="absolute -top-2 right-0 p-0.5 rounded-full bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 shadow-sm"
+            hx-post="{% url 'chat:remove_image' image_id=image.id %}" hx-target="#image-attachment-{{ image.id }}"
+            hx-swap="outerHTML">
+            <svg class="w-5 h-5 text-red-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                <path fill-rule="evenodd"
+                    d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm7.707-3.707a1 1 0 0 0-1.414 1.414L10.586 12l-2.293 2.293a1 1 0 1 0 1.414 1.414L12 13.414l2.293 2.293a1 1 0 0 0 1.414-1.414L13.414 12l2.293-2.293a1 1 0 0 0-1.414-1.414L12 10.586 9.707 8.293Z"
+                    clip-rule="evenodd" />
+            </svg>
+            <span class="sr-only">Remove image</span>
+        </button>
+        <input type="hidden" name="image_ids" value="{{ image.id }}">
+        <img class="rounded-lg w-16 h-16 sm:mb-0 2xl:mb-0 object-cover" src="{{ image.url }}"
+            alt="{{ image.filename }}">
+    </div>
+    {% endfor %}
+    {% endif %}
+</div>

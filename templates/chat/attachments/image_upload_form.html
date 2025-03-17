@@ -1,0 +1,6 @@
+<form id="image-upload-form" hx-encoding="multipart/form-data" hx-post="{% url 'chat:upload_image' %}"
+    hx-target="#attachment-container" hx-swap="outerHTML">
+    <input type="file" id="image-upload-input" name="image"
+        accept="image/png,image/jpeg,image/webp,image/heic,image/heif" class="hidden"
+        onchange="this.form.requestSubmit()">
+</form>

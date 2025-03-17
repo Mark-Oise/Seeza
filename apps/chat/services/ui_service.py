@@ -13,7 +13,7 @@ class UIService:
         
     async def send_typing_indicator(self):
         """Send typing indicator to the client."""
-        typing_html = await self.render_message(None, 'chat/partials/loading_message.html')
+        typing_html = await self.render_partial('chat/partials/loading_message.html')
         await self.consumer.channel_layer.group_send(
             self.room_group_name,
             {
@@ -34,7 +34,7 @@ class UIService:
 
     async def send_loading_button(self):
         """Send loading button to the client."""
-        loading_html = await self.render_message(None, 'chat/partials/buttons/loading_button.html')
+        loading_html = await self.render_partial('chat/partials/buttons/loading_button.html')
         await self.consumer.channel_layer.group_send(
             self.room_group_name,
             {
@@ -45,7 +45,7 @@ class UIService:
 
     async def send_submit_button(self):
         """Send submit button to the client."""
-        submit_html = await self.render_message(None, 'chat/partials/buttons/submit_button.html')
+        submit_html = await self.render_partial('chat/partials/buttons/submit_button.html')
         await self.consumer.channel_layer.group_send(
             self.room_group_name,
             {
@@ -68,9 +68,9 @@ class UIService:
             }
         )
 
-    async def send_rendered_message(self, message, template_name):
+    async def send_rendered_message(self, message, template_name, extra_context=None):
         """Send a rendered message to all clients in the group."""
-        rendered_message = await self.render_message(message, template_name)
+        rendered_message = await self.render_message(message, template_name, extra_context)
         await self.consumer.channel_layer.group_send(
             self.room_group_name,
             {
@@ -91,11 +91,14 @@ class UIService:
         )
     
     @database_sync_to_async
-    def render_message(self, message, template_name):
+    def render_message(self, message, template_name, extra_context=None):
         """Render a message using a template."""
-        return render_to_string(template_name, {'message': message})
+        context = {'message': message}
+        if extra_context:
+            context.update(extra_context)
+        return render_to_string(template_name, context)
 
     @database_sync_to_async
-    def render_partial(self, template_name):
+    def render_partial(self, template_name, context=None):
         """Render a partial template."""
-        return render_to_string(template_name)
+        return render_to_string(template_name, context or {})

@@ -33,59 +33,7 @@
                     <form class="relative" id="message-input-home" method="post"
                         action="{% url 'chat:create_conversation' %}">
                         {% csrf_token %}
-                        <div id="attachment-container" class="flex items-center space-x-2 mb-4 hidden">
-                            <!-- Item -->
-                            <div id="document-attachment"
-                                class="flex relative items-center p-3 border border-gray-200 dark:border-gray-700 rounded-lg relative">
-                                <button type="button"
-                                    class="absolute -top-2 right-0 p-0.5 rounded-full bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 shadow-sm">
-                                    <svg class="w-5 h-5 text-red-500 dark:text-gray-400" aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path fill-rule="evenodd"
-                                            d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm7.707-3.707a1 1 0 0 0-1.414 1.414L10.586 12l-2.293 2.293a1 1 0 1 0 1.414 1.414L12 13.414l2.293 2.293a1 1 0 0 0 1.414-1.414L13.414 12l2.293-2.293a1 1 0 0 0-1.414-1.414L12 10.586 9.707 8.293Z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                    <span class="sr-only">Remove item</span>
-                                </button>
-                                <div
-                                    class="flex items-center justify-center w-10 h-10 mr-3 rounded-lg bg-blue-100 dark:bg-primary-900">
-                                    <svg class="w-5 h-5 text-blue-600 lg:w-6 lg:h-6 dark:text-primary-300"
-                                        fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
-                                        aria-hidden="true">
-                                        <path clip-rule="evenodd" fill-rule="evenodd"
-                                            d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0016.5 9h-1.875a1.875 1.875 0 01-1.875-1.875V5.25A3.75 3.75 0 009 1.5H5.625zM7.5 15a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5A.75.75 0 017.5 15zm.75 2.25a.75.75 0 000 1.5H12a.75.75 0 000-1.5H8.25z">
-                                        </path>
-                                        <path
-                                            d="M12.971 1.816A5.23 5.23 0 0114.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 013.434 1.279 9.768 9.768 0 00-6.963-6.963z">
-                                        </path>
-                                    </svg>
-                                </div>
-                                <div class="mr-4">
-                                    <p class="text-sm font-semibold text-gray-900 dark:text-white">flowbite_offer_345"
-                                    </p>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400">PDF</p>
-                                </div>
-
-                            </div>
-                            <!-- Item -->
-                            <div id="image-attachment" class="flex relative">
-                                <button type="button"
-                                    class="absolute -top-2 right-0 p-0.5 rounded-full bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 shadow-sm">
-                                    <svg class="w-5 h-5 text-red-500 dark:text-gray-400" aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path fill-rule="evenodd"
-                                            d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm7.707-3.707a1 1 0 0 0-1.414 1.414L10.586 12l-2.293 2.293a1 1 0 1 0 1.414 1.414L12 13.414l2.293 2.293a1 1 0 0 0 1.414-1.414L13.414 12l2.293-2.293a1 1 0 0 0-1.414-1.414L12 10.586 9.707 8.293Z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                    <span class="sr-only">Remove item</span>
-                                </button>
-                                <img class="rounded-lg w-16 h-16 sm:mb-0 2xl:mb-0"
-                                    src="https://flowbite-admin-dashboard.vercel.app/images/users/bonnie-green-2x.png"
-                                    alt="Jese picture">
-                            </div>
-                        </div>
+                        {% include 'chat/attachments/attachment.html' %}
 
                         <!-- Message Input -->
                         <textarea id="message-home" name="message" style="resize: none;"
@@ -99,15 +47,7 @@
                                 <!-- Button Group -->
                                 <div class="flex items-center gap-2">
                                     <!-- Image Button -->
-                                    <button id="image-button" type="button"
-                                        class="inline-flex shrink-0 justify-center bg-white items-center h-10 w-10 rounded-lg text-gray-500 hover:bg-gray-100 focus:z-10 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-500 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700">
-                                        <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                            width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                                stroke-width="2"
-                                                d="m3 16 5-7 6 6.5m6.5 2.5L16 13l-4.286 6M14 10h.01M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z" />
-                                        </svg>
-                                    </button>
+                                    {% include 'chat/partials/buttons/image_upload.html' %}
                                     <!-- End Image Button -->
 
                                     <!-- Attach Button -->
@@ -147,4 +87,6 @@
         </footer>
     </div>
 </div>
+
+{% include 'chat/attachments/image_upload_form.html' %}
 {% endblock content %}

@@ -8,6 +8,7 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from django.utils import timezone
 from collections import defaultdict
+from django.core.files.storage import default_storage
 
 def conversation_list(request):
     """
@@ -66,7 +67,18 @@ def conversation_list(request):
 def home(request):
     """
     View function for the home page.
+    Clear temp_images from session on page load.
     """
+    # Clear temp images on page load
+    if 'temp_images' in request.session:
+        # Clean up any temp files stored
+        for image_data in request.session.get('temp_images', []):
+            if 'path' in image_data:
+                default_storage.delete(image_data['path'])
+        # Remove from session
+        request.session.pop('temp_images', None)
+        request.session.modified = True
+    
     return render(request, 'chat/home.html')
 
 
@@ -88,7 +100,20 @@ def create_conversation(request):
                 session_key = request.session.session_key
             conversation = Conversation.objects.create(session_key=session_key, title=initial_title)
 
-        Message.objects.create(conversation=conversation, sender='user', content=message)
+        # Create user message
+        user_message = Message.objects.create(conversation=conversation, sender='user', content=message)
+        
+        # Process any attached images
+        temp_images = request.session.get('temp_images', [])
+        if temp_images:
+            from .services.image_service import ImageService
+            image_service = ImageService()
+            # Use synchronous version since we're in a view
+            image_service.attach_temp_images_to_message_sync(user_message, temp_images)
+            
+            # Clear temp images from session
+            request.session.pop('temp_images', None)
+            request.session.modified = True
 
     return redirect(reverse('chat:conversation_detail', kwargs={'slug': conversation.slug}))
 
@@ -96,6 +121,7 @@ def create_conversation(request):
 def conversation_detail(request, slug):
     """
     View function to display details of a specific conversation.
+    Clear temp_images from session on page load.
     """
     conversation = get_object_or_404(Conversation, slug=slug)
     if request.user.is_authenticated:
@@ -104,6 +130,16 @@ def conversation_detail(request, slug):
     else:
         if conversation.session_key != request.session.session_key:
             return redirect('chat:home')
+
+    # Clear temp images on page load
+    if 'temp_images' in request.session:
+        # Clean up any temp files stored
+        for image_data in request.session.get('temp_images', []):
+            if 'path' in image_data:
+                default_storage.delete(image_data['path'])
+        # Remove from session
+        request.session.pop('temp_images', None)
+        request.session.modified = True
 
     # Fetch messages in the correct order, avoiding duplicates
     messages = conversation.messages.order_by('created_at').distinct()

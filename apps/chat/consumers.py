@@ -4,6 +4,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from .services.ai_service import GeminiService
 from .services.message_service import MessageService
 from .services.ui_service import UIService
+from .services.image_service import ImageService
 
 class ChatConsumer(AsyncWebsocketConsumer):
     """
@@ -30,6 +31,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             session_key=self.session_key
         )
         self.ui_service = UIService(self, self.room_group_name)
+        self.image_service = ImageService()
 
         await self.channel_layer.group_add(self.room_group_name, self.channel_name)
         await self.accept()
@@ -53,22 +55,35 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.ui_service.send_loading_button()
         user_message = await self.message_service.save_message('user', message)
 
+        # Process any attached images
+        temp_images = self.scope['session'].get('temp_images', [])
+        image_attachments = []
+        
+        if temp_images:
+            # Attach temporary images to the message
+            image_attachments = await self.image_service.attach_temp_images_to_message(user_message, temp_images)
+            
+            # Clear temp images from session
+            self.scope['session'].pop('temp_images', None)
+            self.scope['session'].modified = True
+
         # Add user message to conversation history
         self.conversation_history.append({'role': 'user', 'parts': [message]})
 
         # Render and send user message to all in the group
-        await self.ui_service.send_rendered_message(user_message, 'chat/partials/user_message.html')
+        await self.ui_service.send_rendered_message(user_message, 'chat/partials/user_message.html', 
+                                                  {'image_attachments': image_attachments})
 
         # Send typing indicator
         await self.ui_service.send_typing_indicator()
 
         # Process AI response asynchronously
-        asyncio.create_task(self.process_ai_response())
+        asyncio.create_task(self.process_ai_response(image_attachments))
 
-    async def process_ai_response(self):
+    async def process_ai_response(self, image_attachments=None):
         """Process and stream AI response to the user."""
         # Generate AI response using Gemini
-        response = await self.ai_service.generate_response(self.conversation_history)
+        response = await self.ai_service.generate_response(self.conversation_history, image_attachments)
 
         # Save initial empty AI message
         bot_message = await self.message_service.save_message('bot', '')
@@ -134,12 +149,15 @@ class ChatConsumer(AsyncWebsocketConsumer):
         """Check if there's an initial message that needs a response."""
         initial_message = await self.message_service.get_initial_message()
         has_response = await self.message_service.has_bot_response()
-
+        
         if initial_message and not has_response:
+            # Get any image attachments
+            image_attachments = await self.message_service.get_message_attachments(initial_message.id)
+            
             # Swap to loading button
             await self.ui_service.send_typing_indicator()
             await self.ui_service.send_loading_button()
-            asyncio.create_task(self.process_ai_response())
+            asyncio.create_task(self.process_ai_response(image_attachments))
 
 
     

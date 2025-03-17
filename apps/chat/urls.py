@@ -1,6 +1,6 @@
 from django.urls import path
-from . import views
-from . import utils
+from . import views, utils
+
 
 app_name = 'chat'
 
@@ -15,4 +15,7 @@ urlpatterns = [
     path('c/<slug:slug>/star/', utils.star_conversation, name='star_conversation'),
     path('c/<slug:slug>/rename/', utils.rename_conversation, name='rename_conversation'),
     path('c/<slug:slug>/delete/', utils.delete_conversation, name='delete_conversation'),
+
+
+    
 ]

@@ -17,8 +17,7 @@ def rename_conversation(request, slug):
         
     return HttpResponse(truncatechars(conversation.title, 25))
 
-# class archive_conversation(request):
-#     pass
+
 
 @login_required
 @require_POST

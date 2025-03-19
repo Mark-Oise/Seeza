@@ -119,35 +119,6 @@ class ImageAttachment(models.Model):
     image = models.ImageField(upload_to='chat_images/')
     created_at = models.DateTimeField(auto_now_add=True)
     
-    def save(self, *args, **kwargs):
-        if not self.pk:  # Only process the image when first saving
-            # Open the image using PIL
-            img = Image.open(self.image)
-            
-            # Convert to RGB if necessary
-            if img.mode != 'RGB':
-                img = img.convert('RGB')
-            
-            # Calculate new dimensions while maintaining aspect ratio
-            max_size = 768
-            ratio = min(max_size/float(img.size[0]), max_size/float(img.size[1]))
-            new_size = tuple([int(x*ratio) for x in img.size])
-            
-            # Resize image
-            if max(img.size) > max_size:
-                img = img.resize(new_size, Image.Resampling.LANCZOS)
-            
-            # Save the processed image
-            buffer = BytesIO()
-            img.save(buffer, format='JPEG', quality=85)
-            buffer.seek(0)
-            self.image.save(
-                os.path.splitext(self.image.name)[0] + '.jpg',
-                buffer,
-                save=False
-            )
-        
-        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Image for message {self.message.id}"

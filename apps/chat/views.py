@@ -9,6 +9,28 @@ from django.db.models import Q
 from django.utils import timezone
 from collections import defaultdict
 from django.core.files.storage import default_storage
+from .services.image_service import ImageService
+
+
+def clear_temp_images(request):
+    """Clear temporary images from the session."""
+    if 'temp_images' in request.session:
+        for image_data in request.session.get('temp_images', []):
+            if 'path' in image_data:
+                default_storage.delete(image_data['path'])
+        request.session.pop('temp_images', None)
+        request.session.modified = True
+
+
+def process_message_images(request, message):
+    """Process and attach any temporary images to a message."""
+    temp_images = request.session.get('temp_images', [])
+    if temp_images:
+        image_service = ImageService()
+        image_service.attach_temp_images_to_message_sync(message, temp_images)
+        request.session.pop('temp_images', None)
+        request.session.modified = True
+
 
 def conversation_list(request):
     """
@@ -16,46 +38,20 @@ def conversation_list(request):
     """
     search_query = request.GET.get('search', '')
     
-    if request.user.is_authenticated:
-        conversations = Conversation.objects.filter(
-            user=request.user,
-            is_deleted=False
-        )
-    else:
-        session_key = request.session.session_key
-        if not session_key:
-            request.session.create()
-            session_key = request.session.session_key
-        conversations = Conversation.objects.filter(
-            session_key=session_key,
-            is_deleted=False
-        )
+    # Get conversations for authenticated user or session
+    conversations = get_user_conversations(request)
     
+    # Apply search filter if query exists
     if search_query:
         conversations = conversations.filter(title__icontains=search_query)
     
     conversations = conversations.order_by('-updated_at')
 
-    paginator = Paginator(conversations, 10)  # Show 10 conversations per page
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+    # Paginate results
+    page_obj = paginate_conversations(conversations, request.GET.get('page'))
 
-    # Group conversations
-    today = timezone.now().date()
-    yesterday = today - timezone.timedelta(days=1)
-    last_week = today - timezone.timedelta(days=7)
-
-    grouped_conversations = defaultdict(list)
-
-    for conversation in page_obj:
-        if conversation.updated_at.date() == today:
-            grouped_conversations['Today'].append(conversation)
-        elif conversation.updated_at.date() == yesterday:
-            grouped_conversations['Yesterday'].append(conversation)
-        elif conversation.updated_at.date() > last_week:
-            grouped_conversations['Last 7 days'].append(conversation)
-        else:
-            grouped_conversations['Older'].append(conversation)
+    # Group conversations by time period
+    grouped_conversations = group_conversations_by_date(page_obj)
 
     return render(request, 'chat/partials/conversation_list.html', {
         'grouped_conversations': dict(grouped_conversations),
@@ -64,33 +60,59 @@ def conversation_list(request):
     })
 
 
-def home(request):
-    """
-    View function for the home page.
-    Clear temp_images from session on page load.
-    """
-    # Clear temp images on page load
-    if 'temp_images' in request.session:
-        # Clean up any temp files stored
-        for image_data in request.session.get('temp_images', []):
-            if 'path' in image_data:
-                default_storage.delete(image_data['path'])
-        # Remove from session
-        request.session.pop('temp_images', None)
-        request.session.modified = True
+def get_user_conversations(request):
+    """Get conversations for authenticated user or session."""
+    if request.user.is_authenticated:
+        return Conversation.objects.filter(user=request.user, is_deleted=False)
     
+    session_key = request.session.session_key
+    if not session_key:
+        request.session.create()
+        session_key = request.session.session_key
+    return Conversation.objects.filter(session_key=session_key, is_deleted=False)
+
+
+def paginate_conversations(conversations, page_number):
+    """Paginate conversations list."""
+    paginator = Paginator(conversations, 10)  # Show 10 conversations per page
+    return paginator.get_page(page_number)
+
+
+def group_conversations_by_date(conversations):
+    """Group conversations by time period."""
+    today = timezone.now().date()
+    yesterday = today - timezone.timedelta(days=1) 
+    last_week = today - timezone.timedelta(days=7)
+
+    grouped = defaultdict(list)
+    
+    for conversation in conversations:
+        conversation_date = conversation.updated_at.date()
+        if conversation_date == today:
+            grouped['Today'].append(conversation)
+        elif conversation_date == yesterday:
+            grouped['Yesterday'].append(conversation)
+        elif conversation_date > last_week:
+            grouped['Last 7 days'].append(conversation)
+        else:
+            grouped['Older'].append(conversation)
+            
+    return grouped
+
+
+def home(request):
+    """View function for the home page."""
+    clear_temp_images(request)
     return render(request, 'chat/home.html')
 
 
 def create_conversation(request):
-    """
-    View function to create a new conversation.
-    Expects a POST request with a 'message' parameter.
-    """
+    """Create a new conversation."""
     if request.method == 'POST':
         message = request.POST.get('message')
         initial_title = "New Conversation"
 
+        # Create conversation
         if request.user.is_authenticated:
             conversation = Conversation.objects.create(user=request.user, title=initial_title)
         else:
@@ -103,27 +125,17 @@ def create_conversation(request):
         # Create user message
         user_message = Message.objects.create(conversation=conversation, sender='user', content=message)
         
-        # Process any attached images
-        temp_images = request.session.get('temp_images', [])
-        if temp_images:
-            from .services.image_service import ImageService
-            image_service = ImageService()
-            # Use synchronous version since we're in a view
-            image_service.attach_temp_images_to_message_sync(user_message, temp_images)
-            
-            # Clear temp images from session
-            request.session.pop('temp_images', None)
-            request.session.modified = True
+        # Process attached images
+        process_message_images(request, user_message)
 
     return redirect(reverse('chat:conversation_detail', kwargs={'slug': conversation.slug}))
 
 
 def conversation_detail(request, slug):
-    """
-    View function to display details of a specific conversation.
-    Clear temp_images from session on page load.
-    """
+    """Display conversation details."""
     conversation = get_object_or_404(Conversation, slug=slug)
+    
+    # Validate access permission
     if request.user.is_authenticated:
         if conversation.user != request.user:
             return redirect('chat:home')
@@ -131,20 +143,11 @@ def conversation_detail(request, slug):
         if conversation.session_key != request.session.session_key:
             return redirect('chat:home')
 
-    # Clear temp images on page load
-    if 'temp_images' in request.session:
-        # Clean up any temp files stored
-        for image_data in request.session.get('temp_images', []):
-            if 'path' in image_data:
-                default_storage.delete(image_data['path'])
-        # Remove from session
-        request.session.pop('temp_images', None)
-        request.session.modified = True
-
-    # Fetch messages in the correct order, avoiding duplicates
+    clear_temp_images(request)
+    
+    # Fetch messages
     messages = conversation.messages.order_by('created_at').distinct()
     
-
     return render(request, 'chat/conversation_detail.html', {
         'conversation': conversation,
         'messages': messages,

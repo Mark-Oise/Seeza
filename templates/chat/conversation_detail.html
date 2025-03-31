@@ -22,9 +22,10 @@
       <div class="max-w-4xl mx-auto md:p-4 px-4 py-4">
 
         <!-- Input -->
-        <form class="relative " id="message-input-detail" ws-send>
-
-          {% include 'chat/attachments/attachment.html' %}
+        <form class="relative" id="message-input-detail" ws-send>
+          <div id="attachment-container">
+            {% include 'chat/attachments/attachment.html' %}
+          </div>
           <textarea id="message-detail" name="message" style="resize: none;"
             class="shadow-lg p-4 bg-gray-100 pb-12 block w-full border-gray-200 rounded-lg text-sm focus:border-gray-800 focus:ring-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500"
             placeholder="Ask follow up questions..."></textarea>

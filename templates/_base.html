@@ -39,18 +39,14 @@
     <script src="{% static 'js/csrf.js' %}"></script>
 
     {% endcompress %}
-
-
-
 </head>
 
-<body class="flex flex-col dark:bg-gray-900">
+<body class="flex flex-col dark:bg-gray-900" id="body">
     {% block content %}
     {% endblock content %}
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
     {% compress js %}
     <script src="{% static 'js/input-focus.js' %}"></script>
-    <!-- <script src="{% static 'js/darkmode.js' %}"></script> -->
     <script src="{% static 'js/sidebar.js' %}"></script>
     <script src="{% static 'js/chat.js' %}"></script>
     <script src="{% static 'js/syntax-highlight.js' %}"></script>

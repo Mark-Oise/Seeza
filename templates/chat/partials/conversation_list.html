@@ -35,8 +35,7 @@
             {% endif %}
             rounded-lg">
             <a class="flex-grow py-2 px-3 text-sm text-gray-700 dark:text-gray-400 dark:hover:text-neutral-300 overflow-hidden"
-                hx-post="{{ conversation.get_absolute_url }}" hx-target="#body" hx-push-url="true" hx-trigger="click"
-                hx-swap="innerHTML transition:true show:window:top">
+                href="{{ conversation.get_absolute_url }}">
                 <span id="conversation-title-{{ conversation.slug }}"
                     class="conversation-title inline-block w-full overflow-hidden text-ellipsis whitespace-nowrap"
                     hx-get="{% url 'chat:get_conversation_title' conversation.slug %}" hx-trigger=""

@@ -1,5 +1,5 @@
 from channels.db import database_sync_to_async
-from ..models import Conversation, Message, ImageAttachment
+from ..models import Conversation, Message
 
 class MessageService:
     """Service for database operations related to messages and conversations."""
@@ -59,8 +59,3 @@ class MessageService:
         """Check if there's a bot response in the conversation."""
         conversation = Conversation.objects.get(slug=self.conversation_slug)
         return conversation.messages.filter(sender='bot').exists()
-
-    @database_sync_to_async
-    def get_message_attachments(self, message_id):
-        """Get all image attachments for a message."""
-        return list(ImageAttachment.objects.filter(message_id=message_id))

@@ -4,10 +4,9 @@
 <div class="flex flex-col h-screen overflow-hidden">
   {% include 'navigation/sidebar.html' %}
 
-  <div id="main-content" class="flex-1 flex flex-col overflow-hidden lg:ml-64 transition-all duration-300" hx-ext="ws"
-    ws-connect="/ws/chat/{{ conversation.slug }}/">
+  <div id="main-content" class="flex-1 flex flex-col overflow-hidden lg:ml-64 transition-all duration-300" hx-ext="ws" ws-connect="/ws/chat/{{ conversation.slug }}/">
 
-    {% include 'navigation/application_header.html' %}
+    {% include 'navigation/navbar.html' %}
 
 
     <main class="flex-1 overflow-hidden">
@@ -23,41 +22,13 @@
 
         <!-- Input -->
         <form class="relative" id="message-input-detail" ws-send>
-          <div id="attachment-container">
-            {% include 'chat/attachments/attachment.html' %}
-          </div>
-          <textarea id="message-detail" name="message" style="resize: none;"
-            class="shadow-lg p-4 bg-gray-100 pb-12 block w-full border-gray-200 rounded-lg text-sm focus:border-gray-800 focus:ring-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500"
-            placeholder="Ask follow up questions..."></textarea>
+          <textarea id="message-detail" name="message" style="resize: none;" class="shadow-lg p-4 bg-gray-100 pb-12 block w-full border-gray-200 rounded-lg text-sm focus:border-gray-800 focus:ring-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500" placeholder="Ask follow up questions..."></textarea>
 
-          <div class="absolute bottom-px inset-x-px p-2 rounded-b-lg bg-gray-100 dark:bg-neutral-900">
-            <div class="flex flex-wrap justify-between items-center gap-2">
-              <!-- Button Group -->
-              <div class="flex items-center gap-2">
-                <!-- Image Button -->
-                {% include 'chat/partials/buttons/image_upload.html' %}
-                <!-- End Image Button -->
-
-                <!-- Attach Button -->
-                <button id="attach-document-button" type="button"
-                  class="inline-flex shrink-0 justify-center bg-white items-center h-10 w-10 rounded-lg text-gray-500 hover:bg-gray-100 focus:z-10 focus:outline-hidden focus:bg-gray-100 dark:text-neutral-500 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700">
-                  <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path
-                      d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48" />
-                  </svg>
-                </button>
-                <!-- End Attach Button -->
-              </div>
-              <!-- End Button Group -->
-
-              <!-- Button Group -->
+          <div class="absolute bottom-px inset-x-px p-2 rounded-b-lg bg-gray-100 dark:bg-gray-700">
+            <div class="flex flex-wrap justify-end items-center gap-2">
               <div id="button-container" class="flex items-center gap-x-1">
-                <!-- Send Button -->
                 {% include 'chat/partials/buttons/submit_button.html' %}
-                <!-- End Send Button -->
               </div>
-              <!-- End Button Group -->
             </div>
           </div>
 
@@ -70,9 +41,6 @@
   </div>
 </div>
 </div>
-{% include 'chat/attachments/image_upload_form.html' %}
 {% include 'chat/partials/modals/rename_modal.html' %}
 {% include 'chat/partials/modals/delete_modal.html' %}
-
-
 {% endblock content %}

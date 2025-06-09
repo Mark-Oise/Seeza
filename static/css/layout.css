@@ -1,11 +1,24 @@
+/* Sidebar collapsed state - applied before render */
 .sidebar-collapsed #sidebar {
     transform: translateX(-100%);
 }
 
 .sidebar-collapsed #main-content {
-    margin-left: 0 !important;
+    margin-left: 0;
 }
+
 
 .sidebar-transition {
     transition: transform 0.3s ease-in-out, margin 0.3s ease-in-out;
+}
+
+/* Default expanded state on desktop */
+@media (min-width: 1024px) {
+    html:not(.sidebar-collapsed) #sidebar {
+        transform: translateX(0);
+    }
+
+    html:not(.sidebar-collapsed) #main-content {
+        margin-left: 16rem;
+    }
 }

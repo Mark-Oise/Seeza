@@ -34,7 +34,7 @@ class UIService:
 
     async def send_loading_button(self):
         """Send loading button to the client."""
-        loading_html = await self.render_partial('chat/partials/buttons/loading_button.html')
+        loading_html = await self.render_partial('components/buttons/loading_button.html')
         await self.consumer.channel_layer.group_send(
             self.room_group_name,
             {
@@ -45,7 +45,7 @@ class UIService:
 
     async def send_submit_button(self):
         """Send submit button to the client."""
-        submit_html = await self.render_partial('chat/partials/buttons/submit_button.html')
+        submit_html = await self.render_partial('components/buttons/submit_button.html')
         await self.consumer.channel_layer.group_send(
             self.room_group_name,
             {

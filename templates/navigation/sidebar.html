@@ -53,62 +53,12 @@
                             </div>
 
                         </form>
-                        <script>
-                            document.body.addEventListener('keydown', function (event) {
-                                if (event.metaKey && event.key === 'k') {
-                                    event.preventDefault();
-                                    document.getElementById('conversation-search').focus();
-                                }
-                            });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        </script>
                     </li>
 
                     <!-- Include the conversation list here -->
                     <li id="conversation-list-container" hx-trigger="load" hx-get="{% url 'chat:conversation_list' %}" hx-target="#conversation-list-container">
-                        {% include 'chat/partials/conversation_list.html' %}
+                        {% include 'navigation/partials/conversation_list.html' %}
                     </li>
                 </ul>
 
@@ -212,3 +162,12 @@
 
 
 <div class="fixed inset-0 z-10 hidden bg-gray-900/50 dark:bg-gray-900/90" id="sidebarBackdrop"></div>
+
+<script>
+    document.body.addEventListener('keydown', function (event) {
+        if (event.metaKey && event.key === 'k') {
+            event.preventDefault();
+            document.getElementById('conversation-search').focus();
+        }
+    });
+</script>

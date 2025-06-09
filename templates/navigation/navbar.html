@@ -17,39 +17,32 @@
         </button>
         {% if is_conversation_detail %}
         <button id="titleHoverButton" data-dropdown-toggle="titleHover" data-dropdown-trigger="hover" class="flex items-center gap-1 px-3 py-2.5 text-gray-600 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
-          <span id="conversation-title" class="block max-w-[100px] truncate" hx-get="{% url 'chat:get_conversation_title' conversation.slug %}" hx-trigger="load, every 5s" hx-swap="innerHTML">
+          <span id="conversation-title" class="block max-w-[100px] truncate">
             {{ conversation.title|truncatechars:12 }}
           </span>
           <svg class="w-2.5 h-2.5 flex-shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
           </svg>
         </button>
-        <!-- Dropdown menu -->
+
         <div id="titleHover" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
           <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButton">
             <li>
               <a data-modal-target="rename-modal" data-modal-toggle="rename-modal" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Rename</a>
             </li>
-
-
             <li>
               <a data-modal-target="delete-modal" data-modal-toggle="delete-modal" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Delete</a>
             </li>
-
-
           </ul>
-
         </div>
         {% endif %}
 
       </div>
 
       <div class="flex items-center">
-
-        <div id="messages" class="fixed top-3 right-5">
+        <div id="messages" class="fixed top-3 right-5" hx-swap-oob="true">
           {% include 'components/messages/message.html' %}
         </div>
-
         {% if is_conversation_detail %}
         <a href="{% url 'chat:home' %}" id="new-conversation-button" data-tooltip-target="new-conversation-toggle" class="text-gray-900 bg-white border border-gray-300 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
           <svg class="w-4 h-4 me-2 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">

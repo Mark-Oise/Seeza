@@ -7,24 +7,28 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>Django/Htmx Chat</title>
+    <title>{% block title %}Django/Htmx Chat{% endblock %}</title>
+    <script>
+        (function () {
+            const isExpanded = localStorage.getItem('sidebarExpanded') === 'true';
+            if (!isExpanded) {
+                document.documentElement.classList.add('sidebar-collapsed');
+            }
+        })();
+    </script>
 
-
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/atom-one-dark.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/atom-one-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
 
     <!-- External CSS -->
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
 
-
     <!-- Compressed CSS -->
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
     <link rel="stylesheet" href="{% static 'css/markdown.css' %}">
     <link rel="stylesheet" href="{% static 'css/layout.css' %}">
     <link rel="stylesheet" href="{% static 'css/animations.css' %}">
-
 
     <!-- External JS -->
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
@@ -33,30 +37,22 @@
 
     <!-- Compressed JS -->
     {% compress js %}
-
     <script src="{% static 'js/htmx.min.js' %}"></script>
     <script src="{% static 'js/ws.js' %}"></script>
     <script src="{% static 'js/csrf.js' %}"></script>
-
     {% endcompress %}
 </head>
 
-<body class="flex flex-col dark:bg-gray-900" id="body">
+<body class="flex flex-col dark:bg-gray-900" id="body" hx-headers="X-CSRFToken: {{ csrf_token }}">
     {% block content %}
     {% endblock content %}
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
     {% compress js %}
     <script src="{% static 'js/input-focus.js' %}"></script>
-    <script src="{% static 'js/sidebar.js' %}"></script>
     <script src="{% static 'js/chat.js' %}"></script>
     <script src="{% static 'js/syntax-highlight.js' %}"></script>
+    <script src="{% static 'js/sidebar.js' %}"></script>
     {% endcompress %}
-    <script>
-        document.body.addEventListener('htmx:configRequest', (event) => {
-            event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
-        });
-    </script>
-
 </body>
 
 </html>

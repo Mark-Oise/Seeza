@@ -8,28 +8,6 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from django.utils import timezone
 from collections import defaultdict
-from django.core.files.storage import default_storage
-from .services.image_service import ImageService
-
-
-def clear_temp_images(request):
-    """Clear temporary images from the session."""
-    if 'temp_images' in request.session:
-        for image_data in request.session.get('temp_images', []):
-            if 'path' in image_data:
-                default_storage.delete(image_data['path'])
-        request.session.pop('temp_images', None)
-        request.session.modified = True
-
-
-def process_message_images(request, message):
-    """Process and attach any temporary images to a message."""
-    temp_images = request.session.get('temp_images', [])
-    if temp_images:
-        image_service = ImageService()
-        image_service.attach_temp_images_to_message_sync(message, temp_images)
-        request.session.pop('temp_images', None)
-        request.session.modified = True
 
 
 def conversation_list(request):
@@ -53,7 +31,7 @@ def conversation_list(request):
     # Group conversations by time period
     grouped_conversations = group_conversations_by_date(page_obj)
 
-    return render(request, 'chat/partials/conversation_list.html', {
+    return render(request, 'navigation/partials/conversation_list.html', {
         'grouped_conversations': dict(grouped_conversations),
         'page_obj': page_obj,
         'search_query': search_query
@@ -102,7 +80,6 @@ def group_conversations_by_date(conversations):
 
 def home(request):
     """View function for the home page."""
-    clear_temp_images(request)
     return render(request, 'chat/home.html')
 
 
@@ -125,8 +102,7 @@ def create_conversation(request):
         # Create user message
         user_message = Message.objects.create(conversation=conversation, sender='user', content=message)
         
-        # Process attached images
-        process_message_images(request, user_message)
+
 
     return redirect(reverse('chat:conversation_detail', kwargs={'slug': conversation.slug}))
 
@@ -143,7 +119,6 @@ def conversation_detail(request, slug):
         if conversation.session_key != request.session.session_key:
             return redirect('chat:home')
 
-    clear_temp_images(request)
     
     # Fetch messages
     messages = conversation.messages.order_by('created_at').distinct()

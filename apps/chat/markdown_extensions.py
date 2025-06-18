@@ -2,6 +2,7 @@ import markdown
 from markdown.preprocessors import Preprocessor
 from django.template.loader import render_to_string
 
+
 class CodeBlockPreprocessor(Preprocessor):
     def __init__(self, message_id):
         self.message_id = message_id

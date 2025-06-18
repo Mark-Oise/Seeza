@@ -11,7 +11,6 @@
 
     .conversation-item:hover .action-buttons {
         width: 4rem;
-        /* Adjust based on your button sizes */
     }
 </style>
 
@@ -82,6 +81,7 @@
 </div>
 {% endif %}
 
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const conversationItems = document.querySelectorAll('.conversation-item');
@@ -96,7 +96,7 @@
                 const containerWidth = item.offsetWidth;
 
                 if (titleWidth + buttonsWidth > containerWidth) {
-                    const newTitleWidth = containerWidth - buttonsWidth - 32; // 24px for padding
+                    const newTitleWidth = containerWidth - buttonsWidth - 32;
                     title.style.maxWidth = `${newTitleWidth}px`;
                 }
             });

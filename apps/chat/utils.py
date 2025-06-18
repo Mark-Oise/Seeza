@@ -31,3 +31,4 @@ def delete_conversation(request, slug):
     conversation.delete()
     messages.success(request, "Conversation deleted successfully.")
     return redirect('chat:home')
+

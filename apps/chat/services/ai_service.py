@@ -18,7 +18,7 @@ class GeminiService:
         google_api_key = env("GOOGLE_API_KEY")
         genai.configure(api_key=google_api_key)
         self.model = genai.GenerativeModel(
-            model_name="gemini-1.5-flash",
+            model_name="gemini-2.0-flash",
             system_instruction="You are a helpful AI assistant. Provide accurate and helpful responses. "
                               "Eliminate Emoji's from your responses and maintain a general, friendly tone, "
                               "remove any mention of your name and only respond with the text of your response."
